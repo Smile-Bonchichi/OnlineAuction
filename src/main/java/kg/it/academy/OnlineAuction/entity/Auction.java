@@ -1,6 +1,7 @@
 package kg.it.academy.OnlineAuction.entity;
 
 import kg.it.academy.OnlineAuction.enums.Status;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

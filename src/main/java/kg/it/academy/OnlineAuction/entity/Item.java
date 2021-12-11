@@ -22,6 +22,10 @@ public class Item extends BaseEntity {
     String description;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    User user;
+
+    @ManyToOne
     @JoinColumn(name = "image_id", nullable = false)
     Image image;
 
