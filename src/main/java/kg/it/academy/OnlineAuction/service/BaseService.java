@@ -2,12 +2,12 @@ package kg.it.academy.OnlineAuction.service;
 
 import java.util.List;
 
-public interface BaseService<T> {
-    T save(T t);
+public interface BaseService<Response, Request> {
+    Response save(Request t);
 
-    List<T> getAll();
+    List<Response> getAll();
 
-    T findById(Long id);
+    Response findById(Long id);
 
-    T deleteById(Long id);
+    Response deleteById(Long id);
 }

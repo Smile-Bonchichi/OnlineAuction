@@ -1,6 +1,7 @@
 package kg.it.academy.OnlineAuction.controller;
 
-import kg.it.academy.OnlineAuction.entity.Auction;
+import kg.it.academy.OnlineAuction.dto.auctionDto.request.AuctionRequestDto;
+import kg.it.academy.OnlineAuction.dto.auctionDto.response.AuctionResponseDto;
 import kg.it.academy.OnlineAuction.service.AuctionService;
 
 import lombok.AccessLevel;
@@ -19,22 +20,22 @@ public class AuctionController {
     final AuctionService auctionService;
 
     @PostMapping
-    public Auction save(@RequestBody Auction auction) {
-        return auctionService.save(auction);
+    public AuctionResponseDto save(@RequestBody AuctionRequestDto auctionRequestDto) {
+        return auctionService.save(auctionRequestDto);
     }
 
     @GetMapping
-    public List<Auction> getAll() {
+    public List<AuctionResponseDto> getAll() {
         return auctionService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Auction findById(@PathVariable Long id) {
+    public AuctionResponseDto findById(@PathVariable Long id) {
         return auctionService.findById(id);
     }
 
     @DeleteMapping("/{id}")
-    public Auction deleteById(@PathVariable Long id) {
+    public AuctionResponseDto deleteById(@PathVariable Long id) {
         return auctionService.deleteById(id);
     }
 }

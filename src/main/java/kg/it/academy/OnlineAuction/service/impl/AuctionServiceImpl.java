@@ -1,6 +1,8 @@
 package kg.it.academy.OnlineAuction.service.impl;
 
-import kg.it.academy.OnlineAuction.entity.Auction;
+import kg.it.academy.OnlineAuction.dto.auctionDto.request.AuctionRequestDto;
+import kg.it.academy.OnlineAuction.dto.auctionDto.response.AuctionResponseDto;
+import kg.it.academy.OnlineAuction.mappers.AuctionMapper;
 import kg.it.academy.OnlineAuction.repository.AuctionRepository;
 import kg.it.academy.OnlineAuction.service.AuctionService;
 
@@ -19,25 +21,25 @@ public class AuctionServiceImpl implements AuctionService {
     final AuctionRepository auctionRepository;
 
     @Override
-    public Auction save(Auction auction) {
-        return auctionRepository.save(auction);
+    public AuctionResponseDto save(AuctionRequestDto auctionRequestDto) {
+        return AuctionMapper.INSTANCE.toAuctionDto(
+                auctionRepository.save(AuctionMapper.INSTANCE
+                        .toAuctionEntity(auctionRequestDto))
+        );
     }
 
     @Override
-    public List<Auction> getAll() {
-        return auctionRepository.findAll();
+    public List<AuctionResponseDto> getAll() {
+        return AuctionMapper.INSTANCE.toAuctionsDto(auctionRepository.findAll());
     }
 
     @Override
-    public Auction findById(Long id) {
-        return auctionRepository.getById(id);
+    public AuctionResponseDto findById(Long id) {
+        return AuctionMapper.INSTANCE.toAuctionDto(auctionRepository.getById(id));
     }
 
     @Override
-    public Auction deleteById(Long id) {
-        Auction auction = findById(id);
-        if (auction != null)
-            auctionRepository.deleteById(id);
-        return auction;
+    public AuctionResponseDto deleteById(Long id) {
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package kg.it.academy.OnlineAuction.controller;
 
-import kg.it.academy.OnlineAuction.entity.Item;
+import kg.it.academy.OnlineAuction.dto.ItemDto.request.ItemRequestDto;
+import kg.it.academy.OnlineAuction.dto.ItemDto.response.ItemResponseDto;
 import kg.it.academy.OnlineAuction.service.ItemService;
 
 import lombok.AccessLevel;
@@ -19,22 +20,22 @@ public class ItemController {
     final ItemService itemService;
 
     @PostMapping
-    public Item save(@RequestBody Item item) {
-        return itemService.save(item);
+    public ItemResponseDto save(@RequestBody ItemRequestDto itemRequestDto) {
+        return itemService.save(itemRequestDto);
     }
 
     @GetMapping
-    public List<Item> getAll() {
+    public List<ItemResponseDto> getAll() {
         return itemService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Item findById(@PathVariable Long id) {
+    public ItemResponseDto findById(@PathVariable Long id) {
         return itemService.findById(id);
     }
 
     @DeleteMapping("/{id}")
-    public Item deleteById(@PathVariable Long id) {
+    public ItemResponseDto deleteById(@PathVariable Long id) {
         return itemService.deleteById(id);
     }
 }

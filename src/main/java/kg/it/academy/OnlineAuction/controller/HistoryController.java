@@ -1,6 +1,6 @@
 package kg.it.academy.OnlineAuction.controller;
 
-import kg.it.academy.OnlineAuction.entity.History;
+import kg.it.academy.OnlineAuction.dto.historyDto.HistoryDto;
 import kg.it.academy.OnlineAuction.service.HistoryService;
 
 import lombok.AccessLevel;
@@ -18,23 +18,13 @@ import java.util.List;
 public class HistoryController {
     final HistoryService historyService;
 
-    @PostMapping
-    public History save(@RequestBody History history) {
-        return historyService.save(history);
-    }
-
     @GetMapping
-    public List<History> getAll() {
+    public List<HistoryDto> getAll() {
         return historyService.getAll();
     }
 
     @GetMapping("/{id}")
-    public History findById(@PathVariable Long id) {
+    public HistoryDto findById(@PathVariable Long id) {
         return historyService.findById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public History deleteById(@PathVariable Long id) {
-        return historyService.deleteById(id);
     }
 }

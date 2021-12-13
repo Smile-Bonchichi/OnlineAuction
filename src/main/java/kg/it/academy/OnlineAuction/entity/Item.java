@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "items")
@@ -29,7 +30,7 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "image_id", nullable = false)
     Image image;
 
-    @ManyToOne
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
-    Category category;
+    List<Category> category;
 }

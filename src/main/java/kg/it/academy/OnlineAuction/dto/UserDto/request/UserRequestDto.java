@@ -1,4 +1,4 @@
-package kg.it.academy.OnlineAuction.dto.UserDto;
+package kg.it.academy.OnlineAuction.dto.UserDto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserAuthDto {
+public class UserRequestDto {
     String login;
 
     String password;

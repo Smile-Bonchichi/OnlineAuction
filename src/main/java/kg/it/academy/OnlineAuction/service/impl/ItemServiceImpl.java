@@ -1,8 +1,11 @@
 package kg.it.academy.OnlineAuction.service.impl;
 
-import kg.it.academy.OnlineAuction.entity.Item;
+import kg.it.academy.OnlineAuction.dto.ItemDto.request.ItemRequestDto;
+import kg.it.academy.OnlineAuction.dto.ItemDto.response.ItemResponseDto;
+import kg.it.academy.OnlineAuction.mappers.ItemMapper;
 import kg.it.academy.OnlineAuction.repository.ItemRepository;
 import kg.it.academy.OnlineAuction.service.ItemService;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -17,25 +20,25 @@ public class ItemServiceImpl implements ItemService {
     final ItemRepository itemRepository;
 
     @Override
-    public Item save(Item item) {
-        return itemRepository.save(item);
+    public ItemResponseDto save(ItemRequestDto itemRequestDto) {
+        return ItemMapper.INSTANCE.toItemResponseDto(
+                itemRepository.save(ItemMapper.INSTANCE
+                        .toItemEntity(itemRequestDto))
+        );
     }
 
     @Override
-    public List<Item> getAll() {
-        return itemRepository.findAll();
+    public List<ItemResponseDto> getAll() {
+        return ItemMapper.INSTANCE.toItemsResponseDto(itemRepository.findAll());
     }
 
     @Override
-    public Item findById(Long id) {
-        return itemRepository.getById(id);
+    public ItemResponseDto findById(Long id) {
+        return ItemMapper.INSTANCE.toItemResponseDto(itemRepository.getById(id));
     }
 
     @Override
-    public Item deleteById(Long id) {
-        Item item = findById(id);
-        if (item != null)
-            itemRepository.deleteById(id);
-        return item;
+    public ItemResponseDto deleteById(Long id) {
+        return null;
     }
 }

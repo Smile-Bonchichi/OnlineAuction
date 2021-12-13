@@ -1,6 +1,8 @@
 package kg.it.academy.OnlineAuction.service.impl;
 
+import kg.it.academy.OnlineAuction.dto.historyDto.HistoryDto;
 import kg.it.academy.OnlineAuction.entity.History;
+import kg.it.academy.OnlineAuction.mappers.HistoryMapper;
 import kg.it.academy.OnlineAuction.repository.HistoryRepository;
 import kg.it.academy.OnlineAuction.service.HistoryService;
 
@@ -18,26 +20,22 @@ import java.util.List;
 public class HistoryServiceImpl implements HistoryService {
     final HistoryRepository historyRepository;
 
-    @Override
-    public History save(History history) {
-        return historyRepository.save(history);
+    public HistoryDto save(History history) {
+        return HistoryMapper.INSTANCE.toHistoryDto(historyRepository.save(history));
     }
 
     @Override
-    public List<History> getAll() {
-        return historyRepository.findAll();
+    public List<HistoryDto> getAll() {
+        return HistoryMapper.INSTANCE.toHistoriesResponseDto(historyRepository.findAll());
     }
 
     @Override
-    public History findById(Long id) {
-        return historyRepository.getById(id);
+    public HistoryDto findById(Long id) {
+        return HistoryMapper.INSTANCE.toHistoryDto(historyRepository.getById(id));
     }
 
     @Override
-    public History deleteById(Long id) {
-        History history = findById(id);
-        if (history != null)
-            historyRepository.deleteById(id);
-        return history;
+    public HistoryDto deleteById(Long id) {
+        return null;
     }
 }

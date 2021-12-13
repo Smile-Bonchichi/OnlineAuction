@@ -1,6 +1,8 @@
 package kg.it.academy.OnlineAuction.controller;
 
-import kg.it.academy.OnlineAuction.entity.User;
+import kg.it.academy.OnlineAuction.dto.UserDto.request.UserAuthDto;
+import kg.it.academy.OnlineAuction.dto.UserDto.request.UserRequestDto;
+import kg.it.academy.OnlineAuction.dto.UserDto.response.UserResponseDto;
 import kg.it.academy.OnlineAuction.service.UserService;
 
 import lombok.AccessLevel;
@@ -18,23 +20,28 @@ import java.util.List;
 public class UserController {
     final UserService userService;
 
-    @PostMapping
-    public User save(@RequestBody User user) {
-        return userService.save(user);
+    @PostMapping("/sign-in")
+    public String getAuthToken(@RequestBody UserAuthDto userAuthDto) {
+        return userService.getToken(userAuthDto);
     }
 
-    @GetMapping
-    public List<User> getAll() {
+    @PostMapping("/save")
+    public UserResponseDto save(@RequestBody UserRequestDto userRequestDto) {
+        return userService.save(userRequestDto);
+    }
+
+    @GetMapping("/get-all")
+    public List<UserResponseDto> getAll() {
         return userService.getAll();
     }
 
-    @GetMapping("/{id}")
-    public User findById(@PathVariable Long id) {
+    @GetMapping("/search/{id}")
+    public UserResponseDto findById(@PathVariable Long id) {
         return userService.findById(id);
     }
 
-    @DeleteMapping("/{id}")
-    public User deleteById(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public UserResponseDto deleteById(@PathVariable Long id) {
         return userService.deleteById(id);
     }
 }
