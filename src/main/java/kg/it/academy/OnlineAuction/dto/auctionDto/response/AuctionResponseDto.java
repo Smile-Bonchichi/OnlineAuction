@@ -1,6 +1,9 @@
 package kg.it.academy.OnlineAuction.dto.auctionDto.response;
 
+import kg.it.academy.OnlineAuction.dto.ItemDto.response.ItemResponseForAuctionDto;
+import kg.it.academy.OnlineAuction.entity.Item;
 import kg.it.academy.OnlineAuction.enums.Status;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,7 +21,7 @@ public class AuctionResponseDto {
 
     LocalDateTime endTime;
 
-    Long itemId;
+    ItemResponseForAuctionDto item;
 
     Status status;
 }

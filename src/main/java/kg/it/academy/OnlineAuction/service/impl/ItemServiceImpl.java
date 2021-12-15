@@ -2,13 +2,16 @@ package kg.it.academy.OnlineAuction.service.impl;
 
 import kg.it.academy.OnlineAuction.dto.ItemDto.request.ItemRequestDto;
 import kg.it.academy.OnlineAuction.dto.ItemDto.response.ItemResponseDto;
+import kg.it.academy.OnlineAuction.entity.Item;
 import kg.it.academy.OnlineAuction.mappers.ItemMapper;
 import kg.it.academy.OnlineAuction.repository.ItemRepository;
+import kg.it.academy.OnlineAuction.repository.UserRepository;
 import kg.it.academy.OnlineAuction.service.ItemService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,13 +21,22 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ItemServiceImpl implements ItemService {
     final ItemRepository itemRepository;
+    final UserRepository userRepository;
 
     @Override
     public ItemResponseDto save(ItemRequestDto itemRequestDto) {
+        Item item = ItemMapper.INSTANCE.toItemEntity(itemRequestDto);
+        item.setUser(userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).get());
         return ItemMapper.INSTANCE.toItemResponseDto(
-                itemRepository.save(ItemMapper.INSTANCE
-                        .toItemEntity(itemRequestDto))
+                itemRepository.save(item)
         );
+    }
+
+    @Override
+    public List<ItemResponseDto> getMyItem() {
+        return ItemMapper.INSTANCE.toItemsResponseDto(itemRepository
+                .getMyItem(userRepository.findByLogin(SecurityContextHolder.getContext()
+                        .getAuthentication().getName()).get().getId()));
     }
 
     @Override

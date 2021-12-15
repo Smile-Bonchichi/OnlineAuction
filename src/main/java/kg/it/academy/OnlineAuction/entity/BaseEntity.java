@@ -26,12 +26,12 @@ public class BaseEntity {
     @Column(name = "update_time")
     LocalDateTime updateTime;
 
-    @PostPersist
+    @PrePersist
     public void prePersist() {
         this.createTime = LocalDateTime.now();
     }
 
-    @PostUpdate
+    @PreUpdate
     public void preUpdate() {
         this.updateTime = LocalDateTime.now();
     }

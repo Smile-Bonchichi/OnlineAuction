@@ -24,7 +24,12 @@ public class ItemController {
         return itemService.save(itemRequestDto);
     }
 
-    @GetMapping
+    @GetMapping("/get-my-item")
+    public List<ItemResponseDto> getMyItem() {
+        return itemService.getMyItem();
+    }
+
+    @GetMapping("/get-all-item")
     public List<ItemResponseDto> getAll() {
         return itemService.getAll();
     }

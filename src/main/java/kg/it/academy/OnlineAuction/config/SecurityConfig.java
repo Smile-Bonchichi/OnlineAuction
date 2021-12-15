@@ -28,9 +28,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource)
                 .usersByUsernameQuery("SELECT t.login, t.password, t.is_active FROM users t WHERE t.login = ?")
                 .authoritiesByUsernameQuery(
-                        "SELECT u.login, r.name role FROM user_roles ur " +
-                                "INNER JOIN users u on ur.user_id = u.id " +
-                                "INNER JOIN roles r on ur.role_id = r.id " +
+                        "SELECT u.login, r.name_role " +
+                                "FROM users_roles ur " +
+                                "INNER JOIN users u " +
+                                "   on ur.user_id = u.id " +
+                                "INNER JOIN roles r " +
+                                "   on ur.role_id = r.id " +
                                 "WHERE u.login = ? AND u.is_active = 1"
                 );
     }
@@ -44,27 +47,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 
-                .antMatchers(HttpMethod.POST, "/api/user").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/user").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/api/user").hasRole("USER")
-                .antMatchers(HttpMethod.DELETE, "/api/user").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/api/user/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/user/*").hasRole("USER")
+                .antMatchers(HttpMethod.PUT, "/api/user/*").hasRole("USER")
 
-                .antMatchers(HttpMethod.GET, "/api/history").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/item").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/api/item/*").hasRole("USER")
+                .antMatchers(HttpMethod.PUT, "/api/item/*").hasRole("USER")
 
-                .antMatchers(HttpMethod.POST, "/api/auction").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/api/auction").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/auction").hasRole("USER")
-                .antMatchers(HttpMethod.DELETE, "/api/auction").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/api/history/*").permitAll()
+
+                .antMatchers(HttpMethod.POST, "/api/auction/*").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/api/auction/*").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/auction/*").hasRole("USER")
+
+                .antMatchers(HttpMethod.GET, "/api/user/get-all-user").hasRole("ADMIN")
+
+                .antMatchers(HttpMethod.GET, "/api/item/get-all-item").hasRole("ADMIN")
 
                 .antMatchers(HttpMethod.POST, "/api/role").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/role").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/role/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/role").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/api/role").hasRole("ADMIN")
 
                 .antMatchers(HttpMethod.POST, "/api/category").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/category").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/category/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/category").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/api/category").hasRole("ADMIN")
+
+//                .antMatchers(HttpMethod.DELETE, "/api/user/*").hasRole("USER")
+//                .antMatchers(HttpMethod.DELETE, "/api/item").hasRole("USER")
+//                .antMatchers(HttpMethod.DELETE, "/api/auction").hasRole("USER")
+
+//                .antMatchers(HttpMethod.DELETE, "/api/role").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE, "/api/history").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE, "/api/category").hasRole("ADMIN")
 
                 .and()
                 .httpBasic();

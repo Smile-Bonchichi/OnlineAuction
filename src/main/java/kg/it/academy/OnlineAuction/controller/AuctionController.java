@@ -19,12 +19,12 @@ import java.util.List;
 public class AuctionController {
     final AuctionService auctionService;
 
-    @PostMapping
+    @PostMapping("/save")
     public AuctionResponseDto save(@RequestBody AuctionRequestDto auctionRequestDto) {
         return auctionService.save(auctionRequestDto);
     }
 
-    @GetMapping
+    @GetMapping("/get-all-auction")
     public List<AuctionResponseDto> getAll() {
         return auctionService.getAll();
     }

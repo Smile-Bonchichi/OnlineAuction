@@ -30,17 +30,17 @@ public class UserController {
         return userService.save(userRequestDto);
     }
 
-    @GetMapping("/get-all")
+    @GetMapping("/get-all-user")
     public List<UserResponseDto> getAll() {
         return userService.getAll();
     }
 
-    @GetMapping("/search/{id}")
+    @GetMapping("/{id}")
     public UserResponseDto findById(@PathVariable Long id) {
         return userService.findById(id);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public UserResponseDto deleteById(@PathVariable Long id) {
         return userService.deleteById(id);
     }

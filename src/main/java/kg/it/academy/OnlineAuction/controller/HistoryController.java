@@ -18,7 +18,7 @@ import java.util.List;
 public class HistoryController {
     final HistoryService historyService;
 
-    @GetMapping
+    @GetMapping("/get-all-history")
     public List<HistoryDto> getAll() {
         return historyService.getAll();
     }

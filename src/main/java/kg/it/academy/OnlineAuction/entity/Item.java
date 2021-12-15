@@ -27,10 +27,10 @@ public class Item extends BaseEntity {
     User user;
 
     @ManyToOne
-    @JoinColumn(name = "image_id", nullable = false)
+    @JoinColumn(name = "image_id")
     Image image;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
     List<Category> category;
 }

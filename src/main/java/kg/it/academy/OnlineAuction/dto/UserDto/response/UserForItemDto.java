@@ -8,10 +8,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponseDto {
+public class UserForItemDto {
     Long id;
 
     String login;
-
-    Long imageId;
 }

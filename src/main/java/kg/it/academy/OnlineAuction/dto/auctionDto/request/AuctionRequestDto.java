@@ -3,6 +3,7 @@ package kg.it.academy.OnlineAuction.dto.auctionDto.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,11 +12,11 @@ import java.time.LocalDateTime;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuctionRequestDto {
-    LocalDateTime addTime;
-
     LocalDateTime startTime;
 
     LocalDateTime endTime;
+
+    BigDecimal startPrice;
 
     Long itemId;
 }
