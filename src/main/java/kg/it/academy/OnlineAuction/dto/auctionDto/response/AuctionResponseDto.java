@@ -1,7 +1,6 @@
 package kg.it.academy.OnlineAuction.dto.auctionDto.response;
 
 import kg.it.academy.OnlineAuction.dto.ItemDto.response.ItemResponseForAuctionDto;
-import kg.it.academy.OnlineAuction.entity.Item;
 import kg.it.academy.OnlineAuction.enums.Status;
 
 import lombok.*;
@@ -15,8 +14,6 @@ import java.time.LocalDateTime;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuctionResponseDto {
-    LocalDateTime addTime;
-
     LocalDateTime startTime;
 
     LocalDateTime endTime;

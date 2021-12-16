@@ -1,8 +1,8 @@
 package kg.it.academy.OnlineAuction.service.impl;
 
-import kg.it.academy.OnlineAuction.dto.UserDto.request.UserAuthDto;
-import kg.it.academy.OnlineAuction.dto.UserDto.request.UserRequestDto;
-import kg.it.academy.OnlineAuction.dto.UserDto.response.UserResponseDto;
+import kg.it.academy.OnlineAuction.dto.userDto.request.UserAuthDto;
+import kg.it.academy.OnlineAuction.dto.userDto.request.UserRequestDto;
+import kg.it.academy.OnlineAuction.dto.userDto.response.UserResponseDto;
 import kg.it.academy.OnlineAuction.entity.User;
 import kg.it.academy.OnlineAuction.entity.UserRole;
 import kg.it.academy.OnlineAuction.exceptions.UserNotFoundException;

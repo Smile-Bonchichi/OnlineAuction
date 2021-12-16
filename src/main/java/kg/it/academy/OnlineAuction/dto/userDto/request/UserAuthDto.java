@@ -1,4 +1,4 @@
-package kg.it.academy.OnlineAuction.dto.UserDto.request;
+package kg.it.academy.OnlineAuction.dto.userDto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

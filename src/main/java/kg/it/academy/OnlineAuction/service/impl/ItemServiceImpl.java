@@ -2,10 +2,12 @@ package kg.it.academy.OnlineAuction.service.impl;
 
 import kg.it.academy.OnlineAuction.dto.ItemDto.request.ItemRequestDto;
 import kg.it.academy.OnlineAuction.dto.ItemDto.response.ItemResponseDto;
+import kg.it.academy.OnlineAuction.entity.Category;
 import kg.it.academy.OnlineAuction.entity.Item;
 import kg.it.academy.OnlineAuction.mappers.ItemMapper;
 import kg.it.academy.OnlineAuction.repository.ItemRepository;
 import kg.it.academy.OnlineAuction.repository.UserRepository;
+import kg.it.academy.OnlineAuction.service.CategoryService;
 import kg.it.academy.OnlineAuction.service.ItemService;
 
 import lombok.AccessLevel;
@@ -14,6 +16,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,14 +25,20 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
     final ItemRepository itemRepository;
     final UserRepository userRepository;
+    final CategoryService categoryService;
 
     @Override
     public ItemResponseDto save(ItemRequestDto itemRequestDto) {
         Item item = ItemMapper.INSTANCE.toItemEntity(itemRequestDto);
         item.setUser(userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).get());
-        return ItemMapper.INSTANCE.toItemResponseDto(
-                itemRepository.save(item)
-        );
+
+        List<Category> categories = new ArrayList<>();
+        for (int i = 0; i < itemRequestDto.getCategoryId().size(); i++) {
+            categories.add(categoryService.findById(itemRequestDto.getCategoryId().get(i)));
+        }
+
+        item.setCategory(categories);
+        return ItemMapper.INSTANCE.toItemResponseDto(itemRepository.save(item));
     }
 
     @Override
