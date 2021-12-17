@@ -5,6 +5,7 @@ import kg.it.academy.OnlineAuction.dto.userDto.request.UserRequestDto;
 import kg.it.academy.OnlineAuction.dto.userDto.response.UserResponseDto;
 import kg.it.academy.OnlineAuction.entity.User;
 import kg.it.academy.OnlineAuction.entity.UserRole;
+import kg.it.academy.OnlineAuction.exceptions.NotUniqueRecord;
 import kg.it.academy.OnlineAuction.exceptions.UserSignInException;
 import kg.it.academy.OnlineAuction.mappers.RoleMapper;
 import kg.it.academy.OnlineAuction.mappers.UserMapper;
@@ -50,18 +51,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto save(UserRequestDto userRequestDto) {
-        UserRole userRole = new UserRole();
-        User user = UserMapper.INSTANCE.toUserEntity(userRequestDto);
+        try {
+            UserRole userRole = new UserRole();
+            User user = UserMapper.INSTANCE.toUserEntity(userRequestDto);
 
-        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
-        user.setWallet(BigDecimal.valueOf(0));
-        user.setIsActive(1L);
+            user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
+            user.setWallet(BigDecimal.valueOf(0));
+            user.setIsActive(1L);
 
-        userRole.setUser(userRepository.save(user));
-        userRole.setRole(RoleMapper.INSTANCE.toRoleEntity(roleService.findById(2L)));
-        userRoleRepository.save(userRole);
+            userRole.setUser(userRepository.save(user));
+            userRole.setRole(RoleMapper.INSTANCE.toRoleEntity(roleService.findById(2L)));
+            userRoleRepository.save(userRole);
 
-        return UserMapper.INSTANCE.toUserResponseDto(user);
+            return UserMapper.INSTANCE.toUserResponseDto(user);
+        } catch (Exception ignored) {
+            throw new NotUniqueRecord("Не уникальный логин", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override

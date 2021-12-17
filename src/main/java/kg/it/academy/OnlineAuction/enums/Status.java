@@ -10,8 +10,10 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum Status {
     ACTIVE(0L, "Активен"),
-    IN_ADVERTISING(1L, "В рекламе"),
-    SALES(2L, "Продано");
+    NOT_ACTIVE(0L, "Не активен"),
+    IN_ADVERTISING(2L, "В рекламе"),
+    SALES(3L, "Продано"),
+    NOT_SALES(4L, "Не продано");
 
     final Long id;
     final String message;
