@@ -17,6 +17,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,21 +37,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getToken(UserAuthDto userAuthDto) {
-        try {
-            User user = userRepository
-                    .findByLogin(userAuthDto.getLogin());
-            boolean isMatches = passwordEncoder.matches(userAuthDto.getPassword(), user.getPassword());
-            if (isMatches) {
-                return "Basic " + new String(Base64
-                        .getEncoder().encode((
-                                userAuthDto.getLogin() + ":" + userAuthDto.getPassword()
-                        ).getBytes()));
-            } else {
-                throw new UserSignInException("Неправильный логин или пароль!");
-            }
-        } catch (Exception e) {
-            //log
-            return null;
+        User user = userRepository
+                .findByLogin(userAuthDto.getLogin());
+        boolean isMatches = passwordEncoder.matches(userAuthDto.getPassword(), user.getPassword());
+        if (isMatches) {
+            return "Basic " + new String(Base64
+                    .getEncoder().encode((userAuthDto.getLogin() + ":" + userAuthDto.getPassword()).getBytes()));
+        } else {
+            throw new UserSignInException("Неправильный логин или пароль!", HttpStatus.NOT_FOUND);
         }
     }
 

@@ -4,6 +4,7 @@ import kg.it.academy.OnlineAuction.dto.auctionDto.request.AuctionRequestDto;
 import kg.it.academy.OnlineAuction.dto.auctionDto.response.AuctionResponseDto;
 import kg.it.academy.OnlineAuction.entity.Auction;
 import kg.it.academy.OnlineAuction.enums.Status;
+import kg.it.academy.OnlineAuction.exceptions.NotUniqueRecord;
 import kg.it.academy.OnlineAuction.mappers.AuctionMapper;
 import kg.it.academy.OnlineAuction.repository.AuctionRepository;
 import kg.it.academy.OnlineAuction.repository.ItemRepository;
@@ -13,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,11 +29,15 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public AuctionResponseDto save(AuctionRequestDto auctionRequestDto) {
-        Auction auction = AuctionMapper.INSTANCE.toAuctionEntity(auctionRequestDto);
-        auction.setItem(itemRepository.getItemById(auctionRequestDto.getItemId()));
-        auction.setStatus(setStatusForAuction(LocalDateTime.now(), auctionRequestDto.getStartTime()));
+        try {
+            Auction auction = AuctionMapper.INSTANCE.toAuctionEntity(auctionRequestDto);
+            auction.setItem(itemRepository.getItemById(auctionRequestDto.getItemId()));
+            auction.setStatus(setStatusForAuction(LocalDateTime.now(), auctionRequestDto.getStartTime()));
 
-        return AuctionMapper.INSTANCE.toAuctionDto(auctionRepository.save(auction));
+            return AuctionMapper.INSTANCE.toAuctionDto(auctionRepository.save(auction));
+        } catch (Exception ignored) {
+            throw new NotUniqueRecord("Одинноковое название аукциона", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override

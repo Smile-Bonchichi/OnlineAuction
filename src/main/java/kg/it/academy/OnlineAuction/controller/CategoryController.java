@@ -2,7 +2,6 @@ package kg.it.academy.OnlineAuction.controller;
 
 import kg.it.academy.OnlineAuction.dto.categoryDto.request.CategoryRequestDto;
 import kg.it.academy.OnlineAuction.dto.categoryDto.response.CategoryResponseDto;
-import kg.it.academy.OnlineAuction.entity.Category;
 import kg.it.academy.OnlineAuction.service.CategoryService;
 
 import lombok.AccessLevel;

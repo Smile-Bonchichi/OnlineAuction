@@ -1,7 +1,9 @@
 package kg.it.academy.OnlineAuction.exceptions;
 
-public class UserSignInException extends Exception {
-    public UserSignInException(String message) {
-        super(message);
+import org.springframework.http.HttpStatus;
+
+public class UserSignInException extends BaseException {
+    public UserSignInException(String message, HttpStatus httpStatus) {
+        super(message, httpStatus);
     }
 }

@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -20,12 +21,19 @@ import java.util.List;
 public class HistoryServiceImpl implements HistoryService {
     final HistoryRepository historyRepository;
 
+    @Override
     public HistoryDto save(History history) {
         return null;
     }
 
+    @Override
     public History saveHistory(History history) {
         return historyRepository.save(history);
+    }
+
+    @Override
+    public BigDecimal getMaxPrice(Long id) {
+        return historyRepository.getMaxAuctionPrice(id);
     }
 
     @Override
