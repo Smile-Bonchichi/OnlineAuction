@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "users")
@@ -20,6 +21,9 @@ public class User extends BaseEntity {
 
     @Column(name = "password", nullable = false)
     String password;
+
+    @Column(name = "wallet", nullable = false)
+    BigDecimal wallet;
 
     @ManyToOne
     @JoinColumn(name = "image_id")

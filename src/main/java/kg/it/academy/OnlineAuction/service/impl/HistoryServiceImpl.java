@@ -21,7 +21,11 @@ public class HistoryServiceImpl implements HistoryService {
     final HistoryRepository historyRepository;
 
     public HistoryDto save(History history) {
-        return HistoryMapper.INSTANCE.toHistoryDto(historyRepository.save(history));
+        return null;
+    }
+
+    public History saveHistory(History history) {
+        return historyRepository.save(history);
     }
 
     @Override

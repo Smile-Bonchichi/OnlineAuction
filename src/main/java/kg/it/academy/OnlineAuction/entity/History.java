@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "history")
+@Table(name = "histories")
 @Setter
 @Getter
 @AllArgsConstructor
@@ -17,13 +17,13 @@ import java.math.BigDecimal;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class History extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "auction_id")
+    @JoinColumn(name = "auction_id", nullable = false)
     Auction auction;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     User user;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     BigDecimal price;
 }

@@ -1,15 +1,7 @@
 package kg.it.academy.OnlineAuction.service;
 
-import kg.it.academy.OnlineAuction.entity.Category;
+import kg.it.academy.OnlineAuction.dto.categoryDto.request.CategoryRequestDto;
+import kg.it.academy.OnlineAuction.dto.categoryDto.response.CategoryResponseDto;
 
-import java.util.List;
-
-public interface CategoryService {
-    Category save(Category category);
-
-    List<Category> getAll();
-
-    Category findById(Long id);
-
-    Category deleteById(Long id);
+public interface CategoryService extends BaseService<CategoryResponseDto, CategoryRequestDto> {
 }

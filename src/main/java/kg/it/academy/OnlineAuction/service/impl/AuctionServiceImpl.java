@@ -49,7 +49,12 @@ public class AuctionServiceImpl implements AuctionService {
         return null;
     }
 
-    private Status setStatusForAuction(LocalDateTime add, LocalDateTime start) {
-        return add.compareTo(start) == 0 ? Status.ACTIVE : Status.IN_ADVERTISING;
+    private Status setStatusForAuction(LocalDateTime registrationAuction, LocalDateTime startAuction) {
+        String firstTemp = registrationAuction.toString();
+        String secondTemp = startAuction.toString();
+
+        return firstTemp.substring(0, firstTemp.length() - 7)
+                .equals(secondTemp) ?
+                Status.ACTIVE : Status.IN_ADVERTISING;
     }
 }

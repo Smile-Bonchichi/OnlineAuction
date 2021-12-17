@@ -1,15 +1,7 @@
 package kg.it.academy.OnlineAuction.service;
 
-import kg.it.academy.OnlineAuction.entity.Role;
+import kg.it.academy.OnlineAuction.dto.roleDto.request.RoleRequestDto;
+import kg.it.academy.OnlineAuction.dto.roleDto.response.RoleResponseDto;
 
-import java.util.List;
-
-public interface RoleService {
-    Role save(Role role);
-
-    List<Role> getAll();
-
-    Role findById(Long id);
-
-    Role deleteById(Long id);
+public interface RoleService extends BaseService<RoleResponseDto, RoleRequestDto> {
 }

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "auction")
+@Table(name = "auctions")
 @Setter
 @Getter
 @AllArgsConstructor
@@ -27,6 +27,9 @@ public class Auction extends BaseEntity {
 
     @Column(name = "start_price", nullable = false)
     BigDecimal startPrice;
+
+    @Column(name = "name", nullable = false, unique = true)
+    String name;
 
     @OneToOne
     @JoinColumn(name = "item_id", nullable = false)

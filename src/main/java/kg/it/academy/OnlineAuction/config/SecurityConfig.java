@@ -47,6 +47,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 
+                .antMatchers(HttpMethod.GET, "/api/user/get-all-user").hasRole("ADMIN")
+
+                .antMatchers(HttpMethod.GET, "/api/item/get-all-item").hasRole("ADMIN")
+
+                .antMatchers(HttpMethod.POST, "/api/role").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/role").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/role/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/role").hasRole("ADMIN")
+
+                .antMatchers(HttpMethod.POST, "/api/category").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/category").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/category/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/category").hasRole("ADMIN")
+
                 .antMatchers(HttpMethod.POST, "/api/user/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user/*").hasRole("USER")
                 .antMatchers(HttpMethod.PUT, "/api/user/*").hasRole("USER")
@@ -61,19 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/auction/*").permitAll()
                 .antMatchers(HttpMethod.PUT, "/api/auction/*").hasRole("USER")
 
-                .antMatchers(HttpMethod.GET, "/api/user/get-all-user").hasRole("ADMIN")
-
-                .antMatchers(HttpMethod.GET, "/api/item/get-all-item").hasRole("ADMIN")
-
-                .antMatchers(HttpMethod.POST, "/api/role").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/role").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/role/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/api/role").hasRole("ADMIN")
-
-                .antMatchers(HttpMethod.POST, "/api/category").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/category").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/category/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/api/category").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/place-bet").hasRole("USER")
 
 //                .antMatchers(HttpMethod.DELETE, "/api/user/*").hasRole("USER")
 //                .antMatchers(HttpMethod.DELETE, "/api/item").hasRole("USER")

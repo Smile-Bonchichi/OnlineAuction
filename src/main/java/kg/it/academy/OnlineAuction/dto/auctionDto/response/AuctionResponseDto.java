@@ -18,6 +18,8 @@ public class AuctionResponseDto {
 
     LocalDateTime endTime;
 
+    String name;
+
     ItemResponseForAuctionDto item;
 
     Status status;

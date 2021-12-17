@@ -1,6 +1,7 @@
 package kg.it.academy.OnlineAuction.controller;
 
-import kg.it.academy.OnlineAuction.entity.Role;
+import kg.it.academy.OnlineAuction.dto.roleDto.request.RoleRequestDto;
+import kg.it.academy.OnlineAuction.dto.roleDto.response.RoleResponseDto;
 import kg.it.academy.OnlineAuction.service.RoleService;
 
 import lombok.AccessLevel;
@@ -19,22 +20,22 @@ public class RoleController {
     final RoleService roleService;
 
     @PostMapping
-    public Role save(@RequestBody Role role) {
-        return roleService.save(role);
+    public RoleResponseDto save(@RequestBody RoleRequestDto roleRequestDto) {
+        return roleService.save(roleRequestDto);
     }
 
     @GetMapping
-    public List<Role> getAll() {
+    public List<RoleResponseDto> getAll() {
         return roleService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Role findById(@PathVariable Long id) {
+    public RoleResponseDto findById(@PathVariable Long id) {
         return roleService.findById(id);
     }
 
     @DeleteMapping("/{id}")
-    public Role deleteById(@PathVariable Long id) {
+    public RoleResponseDto deleteById(@PathVariable Long id) {
         return roleService.deleteById(id);
     }
 }

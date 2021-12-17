@@ -4,6 +4,7 @@ import kg.it.academy.OnlineAuction.dto.ItemDto.request.ItemRequestDto;
 import kg.it.academy.OnlineAuction.dto.ItemDto.response.ItemResponseDto;
 import kg.it.academy.OnlineAuction.entity.Category;
 import kg.it.academy.OnlineAuction.entity.Item;
+import kg.it.academy.OnlineAuction.mappers.CategoryMapper;
 import kg.it.academy.OnlineAuction.mappers.ItemMapper;
 import kg.it.academy.OnlineAuction.repository.ItemRepository;
 import kg.it.academy.OnlineAuction.repository.UserRepository;
@@ -30,11 +31,18 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemResponseDto save(ItemRequestDto itemRequestDto) {
         Item item = ItemMapper.INSTANCE.toItemEntity(itemRequestDto);
-        item.setUser(userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).get());
+        item.setUser(userRepository
+                .findByLogin(SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getName())
+        );
 
         List<Category> categories = new ArrayList<>();
         for (int i = 0; i < itemRequestDto.getCategoryId().size(); i++) {
-            categories.add(categoryService.findById(itemRequestDto.getCategoryId().get(i)));
+            categories.add(CategoryMapper.INSTANCE
+                    .toCategoryEntity(categoryService
+                            .findById(itemRequestDto.getCategoryId().get(i))));
         }
 
         item.setCategory(categories);
@@ -45,7 +53,7 @@ public class ItemServiceImpl implements ItemService {
     public List<ItemResponseDto> getMyItem() {
         return ItemMapper.INSTANCE.toItemsResponseDto(itemRepository
                 .getMyItem(userRepository.findByLogin(SecurityContextHolder.getContext()
-                        .getAuthentication().getName()).get().getId()));
+                        .getAuthentication().getName()).getId()));
     }
 
     @Override

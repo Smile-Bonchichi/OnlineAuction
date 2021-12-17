@@ -5,8 +5,8 @@ import kg.it.academy.OnlineAuction.dto.userDto.request.UserRequestDto;
 import kg.it.academy.OnlineAuction.dto.userDto.response.UserResponseDto;
 import kg.it.academy.OnlineAuction.entity.User;
 import kg.it.academy.OnlineAuction.entity.UserRole;
-import kg.it.academy.OnlineAuction.exceptions.UserNotFoundException;
 import kg.it.academy.OnlineAuction.exceptions.UserSignInException;
+import kg.it.academy.OnlineAuction.mappers.RoleMapper;
 import kg.it.academy.OnlineAuction.mappers.UserMapper;
 import kg.it.academy.OnlineAuction.repository.UserRepository;
 import kg.it.academy.OnlineAuction.repository.UserRoleRepository;
@@ -20,6 +20,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Base64;
 import java.util.List;
 
@@ -37,8 +38,7 @@ public class UserServiceImpl implements UserService {
     public String getToken(UserAuthDto userAuthDto) {
         try {
             User user = userRepository
-                    .findByLogin(userAuthDto.getLogin())
-                    .orElseThrow(() -> new UserNotFoundException("Пользователь не найден!"));
+                    .findByLogin(userAuthDto.getLogin());
             boolean isMatches = passwordEncoder.matches(userAuthDto.getPassword(), user.getPassword());
             if (isMatches) {
                 return "Basic " + new String(Base64
@@ -56,14 +56,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto save(UserRequestDto userRequestDto) {
-        User user = UserMapper.INSTANCE.toUserEntity(userRequestDto);
-        user.setIsActive(1L);
-        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
-        userRepository.save(user);
-
         UserRole userRole = new UserRole();
-        userRole.setUser(user);
-        userRole.setRole(roleService.findById(2L));
+        User user = UserMapper.INSTANCE.toUserEntity(userRequestDto);
+
+        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
+        user.setWallet(BigDecimal.valueOf(0));
+        user.setIsActive(1L);
+
+        userRole.setUser(userRepository.save(user));
+        userRole.setRole(RoleMapper.INSTANCE.toRoleEntity(roleService.findById(2L)));
         userRoleRepository.save(userRole);
 
         return UserMapper.INSTANCE.toUserResponseDto(user);

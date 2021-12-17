@@ -1,5 +1,7 @@
 package kg.it.academy.OnlineAuction.controller;
 
+import kg.it.academy.OnlineAuction.dto.categoryDto.request.CategoryRequestDto;
+import kg.it.academy.OnlineAuction.dto.categoryDto.response.CategoryResponseDto;
 import kg.it.academy.OnlineAuction.entity.Category;
 import kg.it.academy.OnlineAuction.service.CategoryService;
 
@@ -19,22 +21,22 @@ public class CategoryController {
     final CategoryService categoryService;
 
     @PostMapping
-    public Category save(@RequestBody Category category) {
-        return categoryService.save(category);
+    public CategoryResponseDto save(@RequestBody CategoryRequestDto categoryRequestDto) {
+        return categoryService.save(categoryRequestDto);
     }
 
     @GetMapping
-    public List<Category> getAll() {
+    public List<CategoryResponseDto> getAll() {
         return categoryService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Category findById(@PathVariable Long id) {
+    public CategoryResponseDto findById(@PathVariable Long id) {
         return categoryService.findById(id);
     }
 
     @DeleteMapping("/{id}")
-    public Category deleteById(@PathVariable Long id) {
+    public CategoryResponseDto deleteById(@PathVariable Long id) {
         return categoryService.deleteById(id);
     }
 }
