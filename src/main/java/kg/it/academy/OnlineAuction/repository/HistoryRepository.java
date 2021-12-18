@@ -10,6 +10,15 @@ import java.math.BigDecimal;
 
 @Repository
 public interface HistoryRepository extends JpaRepository<History, Long> {
-    @Query(nativeQuery = true, value = "SELECT MAX(t.price) FROM histories t WHERE t.auction_id = :id")
+    @Query(nativeQuery = true, value =
+            "        select case " +
+                    "   when tab.price is null then 0 " +
+                    "   else tab.price " +
+                    "end " +
+                    "from ( " +
+                    "   select " +
+                    "       max(t.price) price " +
+                    "   from histories t " +
+                    "   where t.id = :id) tab ")
     BigDecimal getMaxAuctionPrice(Long id);
 }
