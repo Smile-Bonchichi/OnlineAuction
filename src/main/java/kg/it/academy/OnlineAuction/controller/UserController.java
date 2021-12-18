@@ -1,5 +1,6 @@
 package kg.it.academy.OnlineAuction.controller;
 
+import kg.it.academy.OnlineAuction.dto.refillDto.RefillRequestDto;
 import kg.it.academy.OnlineAuction.dto.userDto.request.UserAuthDto;
 import kg.it.academy.OnlineAuction.dto.userDto.request.UserRequestDto;
 import kg.it.academy.OnlineAuction.dto.userDto.response.UserResponseDto;
@@ -11,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -28,6 +30,11 @@ public class UserController {
     @PostMapping("/save")
     public UserResponseDto save(@RequestBody UserRequestDto userRequestDto) {
         return userService.save(userRequestDto);
+    }
+
+    @PostMapping("/refill")
+    public BigDecimal refillWallet(RefillRequestDto refillRequestDto) {
+        return userService.payWallet(refillRequestDto);
     }
 
     @GetMapping("/get-all-user")

@@ -8,19 +8,19 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ResponseMessage<T> {
+public class ResponseMessageModel<T> {
     T value;
     String message;
 
-    public ResponseMessage<T> prepareSuccessMessage(T value) {
-        return ResponseMessage.<T>builder()
+    public ResponseMessageModel<T> prepareSuccessMessage(T value) {
+        return ResponseMessageModel.<T>builder()
                 .value(value)
                 .message(null)
                 .build();
     }
 
-    public ResponseMessage<T> prepareFailMessage(String message) {
-        return ResponseMessage.<T>builder()
+    public ResponseMessageModel<T> prepareFailMessage(String message) {
+        return ResponseMessageModel.<T>builder()
                 .value(null)
                 .message(message)
                 .build();

@@ -1,5 +1,7 @@
 package kg.it.academy.OnlineAuction.service.impl;
 
+import kg.it.academy.OnlineAuction.dto.refillDto.RefillForUserDto;
+import kg.it.academy.OnlineAuction.dto.refillDto.RefillRequestDto;
 import kg.it.academy.OnlineAuction.dto.userDto.request.UserAuthDto;
 import kg.it.academy.OnlineAuction.dto.userDto.request.UserRequestDto;
 import kg.it.academy.OnlineAuction.dto.userDto.response.UserResponseDto;
@@ -7,10 +9,12 @@ import kg.it.academy.OnlineAuction.entity.User;
 import kg.it.academy.OnlineAuction.entity.UserRole;
 import kg.it.academy.OnlineAuction.exceptions.NotUniqueRecord;
 import kg.it.academy.OnlineAuction.exceptions.UserSignInException;
+import kg.it.academy.OnlineAuction.mappers.RefillMapper;
 import kg.it.academy.OnlineAuction.mappers.RoleMapper;
 import kg.it.academy.OnlineAuction.mappers.UserMapper;
 import kg.it.academy.OnlineAuction.repository.UserRepository;
 import kg.it.academy.OnlineAuction.repository.UserRoleRepository;
+import kg.it.academy.OnlineAuction.service.RefillService;
 import kg.it.academy.OnlineAuction.service.RoleService;
 import kg.it.academy.OnlineAuction.service.UserService;
 
@@ -19,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +36,10 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserServiceImpl implements UserService {
     final UserRepository userRepository;
-    final RoleService roleService;
     final UserRoleRepository userRoleRepository;
+    final RoleService roleService;
 
+    final RefillService refillService;
     final PasswordEncoder passwordEncoder;
 
     @Override
@@ -47,6 +53,19 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new UserSignInException("Неправильный логин или пароль!", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Override
+    public BigDecimal payWallet(RefillRequestDto refillRequestDto) {
+        RefillForUserDto refillForUserDto = RefillMapper.INSTANCE.toRefillForUser(refillRequestDto);
+        refillForUserDto.setUser(userRepository.findByLogin(
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getName()
+        ));
+
+        return refillService.payWallet(refillForUserDto);
     }
 
     @Override
