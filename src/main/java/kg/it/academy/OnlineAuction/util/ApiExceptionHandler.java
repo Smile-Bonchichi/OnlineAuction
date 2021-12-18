@@ -1,9 +1,6 @@
 package kg.it.academy.OnlineAuction.util;
 
-import kg.it.academy.OnlineAuction.exceptions.BaseException;
-import kg.it.academy.OnlineAuction.exceptions.LowPriceException;
-import kg.it.academy.OnlineAuction.exceptions.UserNotFoundException;
-import kg.it.academy.OnlineAuction.exceptions.UserSignInException;
+import kg.it.academy.OnlineAuction.exceptions.*;
 import kg.it.academy.OnlineAuction.model.ResponseMessageModel;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +15,9 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {
             UserNotFoundException.class,
             UserSignInException.class,
-            LowPriceException.class
+            UserNotHaveMoneyException.class,
+            LowPriceException.class,
+            NotUniqueRecord.class
     })
     public ResponseEntity<ResponseMessageModel<String>> handleFailException(BaseException baseException) {
         ResponseMessageModel<String> exceptionResponseMessageModel = new ResponseMessageModel<>();
