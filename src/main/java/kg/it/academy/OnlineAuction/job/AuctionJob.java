@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -26,7 +27,7 @@ public class AuctionJob {
         List<Auction> auctions = auctionRepository.findAll();
 
         auctions.stream()
-                .filter(x -> x.getStartTime().compareTo(x.getEndTime()) <= 0)
+                .filter(x -> LocalDateTime.now().compareTo(x.getEndTime()) >= 0)
                 .forEach(x -> auctionRepository.updateStatus(Status.NOT_ACTIVE.toString(), x.getId()));
     }
 
@@ -36,7 +37,7 @@ public class AuctionJob {
         List<Auction> auctions = auctionRepository.findAll();
 
         auctions.stream()
-                .filter(x -> x.getCreateTime().compareTo(x.getStartTime()) >= 0)
+                .filter(x -> LocalDateTime.now().compareTo(x.getStartTime()) <= 0)
                 .forEach(x -> auctionRepository.updateStatus(Status.ACTIVE.toString(), x.getId()));
     }
 }
