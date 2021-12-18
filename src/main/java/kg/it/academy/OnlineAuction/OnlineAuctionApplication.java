@@ -9,7 +9,16 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class OnlineAuctionApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OnlineAuctionApplication.class, args);
+        SpringApplication app = new SpringApplication(OnlineAuctionApplication.class);
+        app.setBanner((environment, sourceClass, out) -> out.println(
+                "╔═══╗──╔╗───────╔═══╗─────╔╗\n" +
+                "║╔═╗║──║║───────║╔═╗║────╔╝╚╗\n" +
+                "║║─║╠═╗║║╔╦═╗╔══╣║─║╠╗╔╦═╩╗╔╬╦══╦═╗\n" +
+                "║║─║║╔╗╣║╠╣╔╗╣║═╣╚═╝║║║║╔═╣║╠╣╔╗║╔╗╗\n" +
+                "║╚═╝║║║║╚╣║║║║║═╣╔═╗║╚╝║╚═╣╚╣║╚╝║║║║\n" +
+                "╚═══╩╝╚╩═╩╩╝╚╩══╩╝─╚╩══╩══╩═╩╩══╩╝╚╝"));
+        app.run(args);
+        //SpringApplication.run(OnlineAuctionApplication.class, args);
     }
 
 }
