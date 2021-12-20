@@ -1,13 +1,19 @@
 package kg.it.academy.OnlineAuction.job;
 
 import kg.it.academy.OnlineAuction.entity.Auction;
+import kg.it.academy.OnlineAuction.entity.User;
 import kg.it.academy.OnlineAuction.enums.Status;
+import kg.it.academy.OnlineAuction.exceptions.MailSenderException;
 import kg.it.academy.OnlineAuction.repository.AuctionRepository;
+import kg.it.academy.OnlineAuction.repository.HistoryRepository;
+import kg.it.academy.OnlineAuction.repository.UserRepository;
+import kg.it.academy.OnlineAuction.service.MailSenderService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -20,24 +26,39 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuctionJob {
     final AuctionRepository auctionRepository;
+    final MailSenderService mailSenderService;
+    final HistoryRepository historyRepository;
+    final UserRepository userRepository;
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 1000)
     @Transactional
-    public void checkAuctionForClose() {
+    public void checkAuctionStatus() {
         List<Auction> auctions = auctionRepository.findAll();
 
-        auctions.stream()
-                .filter(x -> LocalDateTime.now().compareTo(x.getEndTime()) >= 0)
-                .forEach(x -> auctionRepository.updateStatus(Status.NOT_ACTIVE.toString(), x.getId()));
+        auctions.forEach(x -> {
+            if (x.getCreateTime().compareTo(LocalDateTime.now()) > 0) {
+                auctionRepository.updateStatus(Status.IN_ADVERTISING.toString(), x.getId());
+            } else if (x.getStartTime().compareTo(LocalDateTime.now()) <= 0 && x.getEndTime().compareTo(LocalDateTime.now()) > 0) {
+                auctionRepository.updateStatus(Status.ACTIVE.toString(), x.getId());
+            } else if (x.getEndTime().compareTo(LocalDateTime.now()) <= 0) {
+                auctionRepository.updateStatus(Status.NOT_ACTIVE.toString(), x.getId());
+                sendMail(x);
+            }
+        });
     }
 
-    @Scheduled(fixedDelay = 5000)
-    @Transactional
-    public void checkAuctionForOpen() {
-        List<Auction> auctions = auctionRepository.findAll();
+    public void sendMail(Auction auction) {
+        User user = userRepository.getById(historyRepository.getWinnerOnAuction(auction.getId()));
 
-        auctions.stream()
-                .filter(x -> LocalDateTime.now().compareTo(x.getStartTime()) <= 0)
-                .forEach(x -> auctionRepository.updateStatus(Status.ACTIVE.toString(), x.getId()));
+        userRepository.updateWallet(
+                user.getWallet().subtract(historyRepository.getMaxAuctionPrice(auction.getId())), user.getId()
+        );
+        StringBuilder message = new StringBuilder().append("Вы выиграли на аукционе!!!\n")
+                .append("Название: ").append(auction.getName())
+                .append("\nЦена: ").append(historyRepository.getMaxAuctionPrice(auction.getId()));
+
+        if (!mailSenderService.sendMail(user.getEmail(), message.toString())) {
+            throw new MailSenderException("Что то пошло не так с отправкой сообщения...", HttpStatus.EXPECTATION_FAILED);
+        }
     }
 }

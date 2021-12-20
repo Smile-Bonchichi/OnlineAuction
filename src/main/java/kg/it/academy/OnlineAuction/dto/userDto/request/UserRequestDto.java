@@ -12,4 +12,6 @@ public class UserRequestDto {
     String login;
 
     String password;
+
+    String email;
 }

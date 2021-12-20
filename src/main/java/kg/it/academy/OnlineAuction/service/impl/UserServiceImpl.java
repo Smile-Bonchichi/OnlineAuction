@@ -45,11 +45,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getToken(UserAuthDto userAuthDto) {
         User user = userRepository
-                .findByLogin(userAuthDto.getLogin());
+                .findByLoginOrEmail(userAuthDto.getLoginOrEmail());
         boolean isMatches = passwordEncoder.matches(userAuthDto.getPassword(), user.getPassword());
         if (isMatches) {
-            return "Basic " + new String(Base64
-                    .getEncoder().encode((userAuthDto.getLogin() + ":" + userAuthDto.getPassword()).getBytes()));
+            return "Basic " + new String(Base64.getEncoder()
+                    .encode((user.getLogin() + ":" + userAuthDto.getPassword()).getBytes()));
         } else {
             throw new UserSignInException("Неправильный логин или пароль!", HttpStatus.NOT_FOUND);
         }
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public BigDecimal payWallet(RefillRequestDto refillRequestDto) {
         RefillForUserDto refillForUserDto = RefillMapper.INSTANCE.toRefillForUser(refillRequestDto);
-        refillForUserDto.setUser(userRepository.findByLogin(
+        refillForUserDto.setUser(userRepository.findByLoginOrEmail(
                 SecurityContextHolder
                         .getContext()
                         .getAuthentication()
@@ -77,6 +77,7 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
             user.setWallet(BigDecimal.valueOf(0));
             user.setIsActive(1L);
+            user.setEmail(userRequestDto.getEmail());
 
             userRole.setUser(userRepository.save(user));
             userRole.setRole(RoleMapper.INSTANCE.toRoleEntity(roleService.findById(2L)));

@@ -26,6 +26,7 @@ public class RoleServiceImpl implements RoleService {
     public RoleResponseDto save(RoleRequestDto roleRequestDto) {
         try {
             roleRequestDto.setName("ROLE_" + roleRequestDto.getName().toUpperCase());
+            System.out.println(roleRequestDto.getName());
             return RoleMapper.INSTANCE
                     .toResponseDto(roleRepository.save(RoleMapper.INSTANCE.toRoleEntity(roleRequestDto)));
         } catch (Exception ignored) {

@@ -29,18 +29,21 @@ public class PlaceBetServiceImpl implements PlaceBetService {
 
     @Override
     public PlaceBetResponseDto placeBet(PlaceBetRequestDto placeBetRequestDto) {
-        if (placeBetRequestDto.getPrice()
-                .compareTo(historyService.getMaxPrice(placeBetRequestDto.getAuctionId())) > 0) {
+        if (placeBetRequestDto.getPrice().intValue() >=
+                historyService.getMaxPrice(placeBetRequestDto.getAuctionId()).intValue()) {
+            if (placeBetRequestDto.getPrice()
+                    .compareTo(historyService.getMaxPrice(placeBetRequestDto.getAuctionId())) > 0) {
 
-            User user = userRepository.findByLogin(
-                    SecurityContextHolder
-                            .getContext()
-                            .getAuthentication()
-                            .getName());
+                User user = userRepository.findByLoginOrEmail(
+                        SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName());
 
-            if (user.getWallet().compareTo(placeBetRequestDto.getPrice()) < 0) {
-                throw new UserNotHaveMoneyException("Нету денег на балансе", HttpStatus.PAYMENT_REQUIRED);
-            } else {
+                if (user.getWallet().compareTo(placeBetRequestDto.getPrice()) < 0) {
+                    throw new UserNotHaveMoneyException("Нету денег на балансе", HttpStatus.PAYMENT_REQUIRED);
+                }
+
                 History history = historyService.saveHistory(History.builder()
                         .auction(auctionRepository
                                 .getAuctionById(placeBetRequestDto.getAuctionId()))
@@ -52,9 +55,11 @@ public class PlaceBetServiceImpl implements PlaceBetService {
                         .auctionName(history.getAuction().getName())
                         .price(history.getPrice())
                         .build();
+            } else {
+                throw new LowPriceException("Маленькая цена", HttpStatus.PAYMENT_REQUIRED);
             }
         } else {
-            throw new LowPriceException("Маленькая цена", HttpStatus.PAYMENT_REQUIRED);
+            throw new LowPriceException("Маленький шаг", HttpStatus.PAYMENT_REQUIRED);
         }
     }
 }

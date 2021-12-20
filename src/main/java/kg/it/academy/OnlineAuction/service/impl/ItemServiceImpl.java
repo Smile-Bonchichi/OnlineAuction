@@ -36,7 +36,7 @@ public class ItemServiceImpl implements ItemService {
         try {
             Item item = ItemMapper.INSTANCE.toItemEntity(itemRequestDto);
             item.setUser(userRepository
-                    .findByLogin(SecurityContextHolder
+                    .findByLoginOrEmail(SecurityContextHolder
                             .getContext()
                             .getAuthentication()
                             .getName())
@@ -59,7 +59,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemResponseDto> getMyItem() {
         return ItemMapper.INSTANCE.toItemsResponseDto(itemRepository
-                .getMyItem(userRepository.findByLogin(SecurityContextHolder.getContext()
+                .getMyItem(userRepository.findByLoginOrEmail(SecurityContextHolder.getContext()
                         .getAuthentication().getName()).getId()));
     }
 

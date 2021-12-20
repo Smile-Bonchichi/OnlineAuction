@@ -13,5 +13,7 @@ public class UserResponseDto {
 
     String login;
 
+    String email;
+
     Long imageId;
 }

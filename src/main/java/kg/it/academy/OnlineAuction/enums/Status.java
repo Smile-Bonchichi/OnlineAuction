@@ -11,9 +11,7 @@ import lombok.experimental.FieldDefaults;
 public enum Status {
     ACTIVE(0L, "Активен"),
     NOT_ACTIVE(0L, "Не активен"),
-    IN_ADVERTISING(2L, "В рекламе"),
-    SALES(3L, "Продано"),
-    NOT_SALES(4L, "Не продано");
+    IN_ADVERTISING(2L, "В рекламе");
 
     final Long id;
     final String message;

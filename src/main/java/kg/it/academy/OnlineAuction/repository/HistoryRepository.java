@@ -11,14 +11,31 @@ import java.math.BigDecimal;
 @Repository
 public interface HistoryRepository extends JpaRepository<History, Long> {
     @Query(nativeQuery = true, value =
-            "        select case " +
-                    "   when tab.price is null then 0 " +
-                    "   else tab.price " +
-                    "end " +
-                    "from ( " +
-                    "   select " +
-                    "       max(t.price) price " +
-                    "   from histories t " +
-                    "   where t.id = :id) tab ")
+            "        SELECT case " +
+                    "   WHEN tab.price IS NULL THEN 0 " +
+                    "   ELSE tab.price " +
+                    "END " +
+                    "FROM ( " +
+                    "   SELECT " +
+                    "       MAX(t.price) price " +
+                    "   FROM histories t " +
+                    "   WHERE t.id = :id) tab ")
     BigDecimal getMaxAuctionPrice(Long id);
+
+    @Query(nativeQuery = true, value =
+            "        SELECT " +
+                    "   t.user_id " +
+                    "FROM " +
+                    "   histories t " +
+                    "INNER JOIN auctions a ON " +
+                    "   t.auction_id = :id " +
+                    "WHERE " +
+                    "   t.price = ( " +
+                    "   SELECT " +
+                    "       MAX(t2.price) " +
+                    "   FROM " +
+                    "       histories t2 " +
+                    "   WHERE " +
+                    "       t2.auction_id = :id)")
+    Long getWinnerOnAuction(Long id);
 }

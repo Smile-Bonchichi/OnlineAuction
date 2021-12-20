@@ -4,6 +4,7 @@ import kg.it.academy.OnlineAuction.dto.auctionDto.request.AuctionRequestDto;
 import kg.it.academy.OnlineAuction.dto.auctionDto.response.AuctionResponseDto;
 import kg.it.academy.OnlineAuction.entity.Auction;
 import kg.it.academy.OnlineAuction.enums.Status;
+import kg.it.academy.OnlineAuction.exceptions.NotUniqueItemOnAuction;
 import kg.it.academy.OnlineAuction.exceptions.NotUniqueRecord;
 import kg.it.academy.OnlineAuction.mappers.AuctionMapper;
 import kg.it.academy.OnlineAuction.repository.AuctionRepository;
@@ -29,14 +30,18 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public AuctionResponseDto save(AuctionRequestDto auctionRequestDto) {
-        try {
+        if (checkItem(auctionRequestDto.getItemId())) {
             Auction auction = AuctionMapper.INSTANCE.toAuctionEntity(auctionRequestDto);
             auction.setItem(itemRepository.getItemById(auctionRequestDto.getItemId()));
             auction.setStatus(setStatusForAuction(LocalDateTime.now(), auctionRequestDto.getStartTime()));
 
-            return AuctionMapper.INSTANCE.toAuctionDto(auctionRepository.save(auction));
-        } catch (Exception ignored) {
-            throw new NotUniqueRecord("Одинноковое название аукциона", HttpStatus.BAD_REQUEST);
+            try {
+                return AuctionMapper.INSTANCE.toAuctionDto(auctionRepository.save(auction));
+            } catch (Exception ignored) {
+                throw new NotUniqueRecord("Одинноковое название аукциона", HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            throw new NotUniqueItemOnAuction("Эта вещь уже на аукционе", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -55,12 +60,15 @@ public class AuctionServiceImpl implements AuctionService {
         return null;
     }
 
+    private boolean checkItem(Long id) {
+        return auctionRepository.checkUniqueItemOnAuction(id) == 0;
+    }
+
     private Status setStatusForAuction(LocalDateTime registrationAuction, LocalDateTime startAuction) {
         String firstTemp = registrationAuction.toString();
         String secondTemp = startAuction.toString();
 
         return firstTemp.substring(0, firstTemp.length() - 7)
-                .equals(secondTemp) ?
-                Status.ACTIVE : Status.IN_ADVERTISING;
+                .equals(secondTemp) ? Status.ACTIVE : Status.IN_ADVERTISING;
     }
 }

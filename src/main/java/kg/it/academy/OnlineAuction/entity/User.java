@@ -22,6 +22,9 @@ public class User extends BaseEntity {
     @Column(name = "password", nullable = false)
     String password;
 
+    @Column(name = "email", nullable = false, unique = true)
+    String email;
+
     @Column(name = "wallet", nullable = false)
     BigDecimal wallet;
 
