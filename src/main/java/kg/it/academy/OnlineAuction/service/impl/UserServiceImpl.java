@@ -98,9 +98,4 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto findById(Long id) {
         return UserMapper.INSTANCE.toUserResponseDto(userRepository.getById(id));
     }
-
-    @Override
-    public UserResponseDto deleteById(Long id) {
-        return null;
-    }
 }

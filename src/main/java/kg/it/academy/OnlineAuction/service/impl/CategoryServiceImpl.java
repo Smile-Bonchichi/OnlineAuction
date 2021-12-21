@@ -42,9 +42,4 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponseDto findById(Long id) {
         return CategoryMapper.INSTANCE.toResponseDto(categoryRepository.getById(id));
     }
-
-    @Override
-    public CategoryResponseDto deleteById(Long id) {
-        return null;
-    }
 }

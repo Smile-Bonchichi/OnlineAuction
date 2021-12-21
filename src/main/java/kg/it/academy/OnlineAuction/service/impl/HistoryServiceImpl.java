@@ -45,9 +45,4 @@ public class HistoryServiceImpl implements HistoryService {
     public HistoryDto findById(Long id) {
         return HistoryMapper.INSTANCE.toHistoryDto(historyRepository.getById(id));
     }
-
-    @Override
-    public HistoryDto deleteById(Long id) {
-        return null;
-    }
 }

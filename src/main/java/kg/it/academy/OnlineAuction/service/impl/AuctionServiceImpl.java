@@ -33,8 +33,9 @@ public class AuctionServiceImpl implements AuctionService {
         if (checkItem(auctionRequestDto.getItemId())) {
             Auction auction = AuctionMapper.INSTANCE.toAuctionEntity(auctionRequestDto);
             auction.setItem(itemRepository.getItemById(auctionRequestDto.getItemId()));
-            auction.setStatus(setStatusForAuction(LocalDateTime.now(), auctionRequestDto.getStartTime()));
-
+            if (LocalDateTime.now().compareTo(auctionRequestDto.getStartTime()) <= 0)
+                auction.setStatus(Status.IN_ADVERTISING);
+            else auction.setStatus(Status.ACTIVE);
             try {
                 return AuctionMapper.INSTANCE.toAuctionDto(auctionRepository.save(auction));
             } catch (Exception ignored) {
@@ -55,20 +56,7 @@ public class AuctionServiceImpl implements AuctionService {
         return AuctionMapper.INSTANCE.toAuctionDto(auctionRepository.getById(id));
     }
 
-    @Override
-    public AuctionResponseDto deleteById(Long id) {
-        return null;
-    }
-
     private boolean checkItem(Long id) {
         return auctionRepository.checkUniqueItemOnAuction(id) == 0;
-    }
-
-    private Status setStatusForAuction(LocalDateTime registrationAuction, LocalDateTime startAuction) {
-        String firstTemp = registrationAuction.toString();
-        String secondTemp = startAuction.toString();
-
-        return firstTemp.substring(0, firstTemp.length() - 7)
-                .equals(secondTemp) ? Status.ACTIVE : Status.IN_ADVERTISING;
     }
 }

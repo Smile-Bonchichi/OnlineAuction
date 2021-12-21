@@ -6,6 +6,7 @@ import kg.it.academy.OnlineAuction.model.ResponseMessageModel;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -16,8 +17,16 @@ public class ApiExceptionHandler {
             UserNotFoundException.class,
             UserSignInException.class,
             UserNotHaveMoneyException.class,
+
             LowPriceException.class,
-            NotUniqueRecord.class
+            NotCorrectBetException.class,
+
+            NotUniqueRecord.class,
+            NotUniqueItemOnAuction.class,
+
+            AuctionClosedException.class,
+
+            MailSenderException.class
     })
     public ResponseEntity<ResponseMessageModel<String>> handleFailException(BaseException baseException) {
         ResponseMessageModel<String> exceptionResponseMessageModel = new ResponseMessageModel<>();

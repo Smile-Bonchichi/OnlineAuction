@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -78,14 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/api/auction/*").hasRole("USER")
 
                 .antMatchers(HttpMethod.POST, "/api/place-bet").hasRole("USER")
-
-//                .antMatchers(HttpMethod.DELETE, "/api/user/*").hasRole("USER")
-//                .antMatchers(HttpMethod.DELETE, "/api/item").hasRole("USER")
-//                .antMatchers(HttpMethod.DELETE, "/api/auction").hasRole("USER")
-
-//                .antMatchers(HttpMethod.DELETE, "/api/role").hasRole("ADMIN")
-//                .antMatchers(HttpMethod.DELETE, "/api/history").hasRole("ADMIN")
-//                .antMatchers(HttpMethod.DELETE, "/api/category").hasRole("ADMIN")
 
                 .and()
                 .httpBasic();

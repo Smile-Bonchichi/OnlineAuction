@@ -72,9 +72,4 @@ public class ItemServiceImpl implements ItemService {
     public ItemResponseDto findById(Long id) {
         return ItemMapper.INSTANCE.toItemResponseDto(itemRepository.getById(id));
     }
-
-    @Override
-    public ItemResponseDto deleteById(Long id) {
-        return null;
-    }
 }
