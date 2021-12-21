@@ -1,6 +1,6 @@
 package kg.it.academy.OnlineAuction.service.impl;
 
-import kg.it.academy.OnlineAuction.dto.refillDto.RefillForUserDto;
+import kg.it.academy.OnlineAuction.dto.refill.RefillForUserDto;
 import kg.it.academy.OnlineAuction.service.RefillService;
 
 import lombok.AccessLevel;

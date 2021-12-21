@@ -1,6 +1,6 @@
 package kg.it.academy.OnlineAuction.controller;
 
-import kg.it.academy.OnlineAuction.dto.historyDto.HistoryDto;
+import kg.it.academy.OnlineAuction.dto.history.HistoryDto;
 import kg.it.academy.OnlineAuction.service.HistoryService;
 
 import lombok.AccessLevel;

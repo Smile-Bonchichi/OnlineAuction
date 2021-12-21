@@ -1,7 +1,7 @@
 package kg.it.academy.OnlineAuction.controller;
 
-import kg.it.academy.OnlineAuction.dto.ItemDto.request.ItemRequestDto;
-import kg.it.academy.OnlineAuction.dto.ItemDto.response.ItemResponseDto;
+import kg.it.academy.OnlineAuction.dto.Item.request.ItemRequestDto;
+import kg.it.academy.OnlineAuction.dto.Item.response.ItemResponseDto;
 import kg.it.academy.OnlineAuction.service.ItemService;
 
 import lombok.AccessLevel;

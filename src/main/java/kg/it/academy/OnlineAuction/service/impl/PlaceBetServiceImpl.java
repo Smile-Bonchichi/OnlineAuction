@@ -1,7 +1,7 @@
 package kg.it.academy.OnlineAuction.service.impl;
 
-import kg.it.academy.OnlineAuction.dto.placeBetDto.request.PlaceBetRequestDto;
-import kg.it.academy.OnlineAuction.dto.placeBetDto.response.PlaceBetResponseDto;
+import kg.it.academy.OnlineAuction.dto.place.bet.request.PlaceBetRequestDto;
+import kg.it.academy.OnlineAuction.dto.place.bet.response.PlaceBetResponseDto;
 import kg.it.academy.OnlineAuction.entity.History;
 import kg.it.academy.OnlineAuction.entity.User;
 import kg.it.academy.OnlineAuction.exceptions.LowPriceException;

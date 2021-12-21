@@ -1,6 +1,6 @@
 package kg.it.academy.OnlineAuction.service;
 
-import kg.it.academy.OnlineAuction.dto.refillDto.RefillForUserDto;
+import kg.it.academy.OnlineAuction.dto.refill.RefillForUserDto;
 
 import java.math.BigDecimal;
 

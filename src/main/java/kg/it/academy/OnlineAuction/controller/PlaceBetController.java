@@ -1,7 +1,7 @@
 package kg.it.academy.OnlineAuction.controller;
 
-import kg.it.academy.OnlineAuction.dto.placeBetDto.request.PlaceBetRequestDto;
-import kg.it.academy.OnlineAuction.dto.placeBetDto.response.PlaceBetResponseDto;
+import kg.it.academy.OnlineAuction.dto.place.bet.request.PlaceBetRequestDto;
+import kg.it.academy.OnlineAuction.dto.place.bet.response.PlaceBetResponseDto;
 import kg.it.academy.OnlineAuction.service.PlaceBetService;
 
 import lombok.AccessLevel;

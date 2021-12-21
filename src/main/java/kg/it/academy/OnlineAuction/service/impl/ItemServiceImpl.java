@@ -1,7 +1,7 @@
 package kg.it.academy.OnlineAuction.service.impl;
 
-import kg.it.academy.OnlineAuction.dto.ItemDto.request.ItemRequestDto;
-import kg.it.academy.OnlineAuction.dto.ItemDto.response.ItemResponseDto;
+import kg.it.academy.OnlineAuction.dto.Item.request.ItemRequestDto;
+import kg.it.academy.OnlineAuction.dto.Item.response.ItemResponseDto;
 import kg.it.academy.OnlineAuction.entity.Category;
 import kg.it.academy.OnlineAuction.entity.Item;
 import kg.it.academy.OnlineAuction.exceptions.NotUniqueRecord;

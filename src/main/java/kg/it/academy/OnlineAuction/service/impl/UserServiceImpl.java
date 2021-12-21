@@ -1,10 +1,10 @@
 package kg.it.academy.OnlineAuction.service.impl;
 
-import kg.it.academy.OnlineAuction.dto.refillDto.RefillForUserDto;
-import kg.it.academy.OnlineAuction.dto.refillDto.RefillRequestDto;
-import kg.it.academy.OnlineAuction.dto.userDto.request.UserAuthDto;
-import kg.it.academy.OnlineAuction.dto.userDto.request.UserRequestDto;
-import kg.it.academy.OnlineAuction.dto.userDto.response.UserResponseDto;
+import kg.it.academy.OnlineAuction.dto.refill.RefillForUserDto;
+import kg.it.academy.OnlineAuction.dto.refill.RefillRequestDto;
+import kg.it.academy.OnlineAuction.dto.user.request.UserAuthDto;
+import kg.it.academy.OnlineAuction.dto.user.request.UserRequestDto;
+import kg.it.academy.OnlineAuction.dto.user.response.UserResponseDto;
 import kg.it.academy.OnlineAuction.entity.User;
 import kg.it.academy.OnlineAuction.entity.UserRole;
 import kg.it.academy.OnlineAuction.exceptions.NotUniqueRecord;

@@ -7,10 +7,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AuctionRepository extends JpaRepository<Auction, Long> {
     @Query(nativeQuery = true, value = "SELECT t.* FROM auctions t WHERE t.id = :id")
     Auction getAuctionById(Long id);
+
+    @Query(nativeQuery = true, value = "SELECT t.* FROM auctions t WHERE t.status != 'NOT_ACTIVE'")
+    List<Auction> getAuctionByActiveAndAdvertising();
 
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE auctions SET status = :newStatus WHERE id = :auctionId")

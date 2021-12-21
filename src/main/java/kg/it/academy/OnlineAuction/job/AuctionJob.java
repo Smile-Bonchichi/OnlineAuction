@@ -33,14 +33,14 @@ public class AuctionJob {
     @Scheduled(fixedDelay = 1000)
     @Transactional
     public void checkAuctionStatus() {
-        List<Auction> auctions = auctionRepository.findAll();
+        List<Auction> auctions = auctionRepository.getAuctionByActiveAndAdvertising();
 
         auctions.forEach(x -> {
             if (x.getCreateTime().compareTo(LocalDateTime.now()) > 0) {
                 auctionRepository.updateStatus(Status.IN_ADVERTISING.toString(), x.getId());
             } else if (x.getStartTime().compareTo(LocalDateTime.now()) <= 0 && x.getEndTime().compareTo(LocalDateTime.now()) > 0) {
                 auctionRepository.updateStatus(Status.ACTIVE.toString(), x.getId());
-            } else if (x.getEndTime().compareTo(LocalDateTime.now()) <= 0) {
+            } else if ((x.getEndTime().compareTo(LocalDateTime.now()) <= 0) && (x.getStatus().equals(Status.ACTIVE))) {
                 auctionRepository.updateStatus(Status.NOT_ACTIVE.toString(), x.getId());
                 sendMail(x);
             }

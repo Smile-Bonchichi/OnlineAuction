@@ -1,6 +1,6 @@
 package kg.it.academy.OnlineAuction.mappers;
 
-import kg.it.academy.OnlineAuction.dto.historyDto.HistoryDto;
+import kg.it.academy.OnlineAuction.dto.history.HistoryDto;
 import kg.it.academy.OnlineAuction.entity.History;
 
 import org.mapstruct.Mapper;

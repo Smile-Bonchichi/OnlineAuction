@@ -1,6 +1,6 @@
 package kg.it.academy.OnlineAuction.service;
 
-import kg.it.academy.OnlineAuction.dto.historyDto.HistoryDto;
+import kg.it.academy.OnlineAuction.dto.history.HistoryDto;
 import kg.it.academy.OnlineAuction.entity.History;
 
 import java.math.BigDecimal;

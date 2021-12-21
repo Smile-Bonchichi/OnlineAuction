@@ -1,6 +1,6 @@
 package kg.it.academy.OnlineAuction.boot;
 
-import kg.it.academy.OnlineAuction.dto.categoryDto.request.CategoryRequestDto;
+import kg.it.academy.OnlineAuction.dto.category.request.CategoryRequestDto;
 import kg.it.academy.OnlineAuction.entity.Role;
 import kg.it.academy.OnlineAuction.repository.RoleRepository;
 import kg.it.academy.OnlineAuction.service.CategoryService;

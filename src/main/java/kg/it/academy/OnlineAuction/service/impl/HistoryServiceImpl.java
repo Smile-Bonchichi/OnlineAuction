@@ -1,6 +1,6 @@
 package kg.it.academy.OnlineAuction.service.impl;
 
-import kg.it.academy.OnlineAuction.dto.historyDto.HistoryDto;
+import kg.it.academy.OnlineAuction.dto.history.HistoryDto;
 import kg.it.academy.OnlineAuction.entity.History;
 import kg.it.academy.OnlineAuction.mappers.HistoryMapper;
 import kg.it.academy.OnlineAuction.repository.HistoryRepository;

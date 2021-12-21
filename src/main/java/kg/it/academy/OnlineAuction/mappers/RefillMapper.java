@@ -1,7 +1,7 @@
 package kg.it.academy.OnlineAuction.mappers;
 
-import kg.it.academy.OnlineAuction.dto.refillDto.RefillForUserDto;
-import kg.it.academy.OnlineAuction.dto.refillDto.RefillRequestDto;
+import kg.it.academy.OnlineAuction.dto.refill.RefillForUserDto;
+import kg.it.academy.OnlineAuction.dto.refill.RefillRequestDto;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

@@ -1,7 +1,7 @@
 package kg.it.academy.OnlineAuction.mappers;
 
-import kg.it.academy.OnlineAuction.dto.roleDto.request.RoleRequestDto;
-import kg.it.academy.OnlineAuction.dto.roleDto.response.RoleResponseDto;
+import kg.it.academy.OnlineAuction.dto.role.request.RoleRequestDto;
+import kg.it.academy.OnlineAuction.dto.role.response.RoleResponseDto;
 import kg.it.academy.OnlineAuction.entity.Role;
 
 import org.mapstruct.Mapper;

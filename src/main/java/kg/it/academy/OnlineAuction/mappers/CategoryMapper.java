@@ -1,7 +1,7 @@
 package kg.it.academy.OnlineAuction.mappers;
 
-import kg.it.academy.OnlineAuction.dto.categoryDto.request.CategoryRequestDto;
-import kg.it.academy.OnlineAuction.dto.categoryDto.response.CategoryResponseDto;
+import kg.it.academy.OnlineAuction.dto.category.request.CategoryRequestDto;
+import kg.it.academy.OnlineAuction.dto.category.response.CategoryResponseDto;
 import kg.it.academy.OnlineAuction.entity.Category;
 
 import org.mapstruct.Mapper;
