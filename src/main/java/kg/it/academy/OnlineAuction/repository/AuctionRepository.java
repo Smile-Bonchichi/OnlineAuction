@@ -34,10 +34,6 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
     @Query(nativeQuery = true, value = "UPDATE auctions SET status = :newStatus WHERE id = :auctionId")
     void updateStatus(String newStatus, Long auctionId);
 
-    @Modifying
-    @Query(nativeQuery = true, value = "UPDATE auctions SET user_id = :userId WHERE id = :auctionId")
-    void updateUserId( Long userId, Long auctionId);
-
     @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM auctions t WHERE t.item_id = :id")
     Integer checkUniqueItemOnAuction(Long id);
 }

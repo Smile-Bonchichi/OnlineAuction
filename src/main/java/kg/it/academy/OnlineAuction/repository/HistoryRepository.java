@@ -20,7 +20,7 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
                     "   SELECT " +
                     "       MAX(t.price) price " +
                     "   FROM histories t " +
-                    "   WHERE t.id = :id) tab ")
+                    "   WHERE t.auction_id = :id) tab ")
     BigDecimal getMaxAuctionPrice(Long id);
 
     @Query(nativeQuery = true, value =
@@ -28,9 +28,8 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
                     "   t.user_id " +
                     "FROM " +
                     "   histories t " +
-                    "INNER JOIN auctions a ON " +
-                    "   t.auction_id = :id " +
                     "WHERE " +
+                    "   t.auction_id = :id AND " +
                     "   t.price = ( " +
                     "   SELECT " +
                     "       MAX(t2.price) " +

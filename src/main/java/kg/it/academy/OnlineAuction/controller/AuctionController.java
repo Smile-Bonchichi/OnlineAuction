@@ -33,9 +33,4 @@ public class AuctionController {
     public AuctionResponseDto findById(@PathVariable Long id) {
         return auctionService.findById(id);
     }
-
-    @DeleteMapping("/{id}")
-    public AuctionResponseDto deleteById(@PathVariable Long id) {
-        return auctionService.deleteById(id);
-    }
 }

@@ -1,5 +1,6 @@
 package kg.it.academy.OnlineAuction.dto.Item.response;
 
+import kg.it.academy.OnlineAuction.entity.Category;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -15,5 +16,5 @@ public class ItemResponseDto {
 
     String description;
 
-    List<Long> categoryId;
+    List<Category> category;
 }

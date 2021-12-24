@@ -33,9 +33,4 @@ public class RoleController {
     public RoleResponseDto findById(@PathVariable Long id) {
         return roleService.findById(id);
     }
-
-    @DeleteMapping("/{id}")
-    public RoleResponseDto deleteById(@PathVariable Long id) {
-        return roleService.deleteById(id);
-    }
 }

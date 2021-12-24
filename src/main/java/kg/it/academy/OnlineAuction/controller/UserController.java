@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/refill")
-    public BigDecimal refillWallet(RefillRequestDto refillRequestDto) {
+    public BigDecimal refillWallet(@RequestBody RefillRequestDto refillRequestDto) {
         return userService.payWallet(refillRequestDto);
     }
 
@@ -45,10 +45,5 @@ public class UserController {
     @GetMapping("/{id}")
     public UserResponseDto findById(@PathVariable Long id) {
         return userService.findById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public UserResponseDto deleteById(@PathVariable Long id) {
-        return userService.deleteById(id);
     }
 }

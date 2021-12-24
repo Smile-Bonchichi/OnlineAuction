@@ -55,26 +55,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/role").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/role").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/role/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/api/role").hasRole("ADMIN")
 
                 .antMatchers(HttpMethod.POST, "/api/category").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/category").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/category/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/api/category").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/category").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/api/user/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user/*").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/api/user/*").hasRole("USER")
 
                 .antMatchers(HttpMethod.POST, "/api/item").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/api/item/*").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/api/item/*").hasRole("USER")
 
                 .antMatchers(HttpMethod.GET, "/api/history/*").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/api/auction/*").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/api/auction/*").permitAll()
-                .antMatchers(HttpMethod.PUT, "/api/auction/*").hasRole("USER")
 
                 .antMatchers(HttpMethod.POST, "/api/place-bet").hasRole("USER")
 

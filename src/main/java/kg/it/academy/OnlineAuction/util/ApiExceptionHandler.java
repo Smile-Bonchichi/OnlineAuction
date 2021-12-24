@@ -20,6 +20,7 @@ public class ApiExceptionHandler {
 
             LowPriceException.class,
             NotCorrectBetException.class,
+            OnlineBankException.class,
 
             NotUniqueRecord.class,
             NotUniqueItemOnAuction.class,

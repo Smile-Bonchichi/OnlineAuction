@@ -7,6 +7,7 @@ import kg.it.academy.OnlineAuction.dto.user.request.UserRequestDto;
 import kg.it.academy.OnlineAuction.dto.user.response.UserResponseDto;
 import kg.it.academy.OnlineAuction.entity.User;
 import kg.it.academy.OnlineAuction.entity.UserRole;
+import kg.it.academy.OnlineAuction.exceptions.MailSenderException;
 import kg.it.academy.OnlineAuction.exceptions.NotUniqueRecord;
 import kg.it.academy.OnlineAuction.exceptions.UserSignInException;
 import kg.it.academy.OnlineAuction.mappers.RefillMapper;
@@ -27,6 +28,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Base64;
 import java.util.List;
@@ -56,6 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public BigDecimal payWallet(RefillRequestDto refillRequestDto) {
         RefillForUserDto refillForUserDto = RefillMapper.INSTANCE.toRefillForUser(refillRequestDto);
         refillForUserDto.setUser(userRepository.findByLoginOrEmail(
@@ -65,12 +68,20 @@ public class UserServiceImpl implements UserService {
                         .getName()
         ));
 
+        userRepository.updateWallet(
+                refillForUserDto.getUser().getWallet().add(refillRequestDto.getAmount()),
+                refillForUserDto.getUser().getId()
+        );
+
         return refillService.payWallet(refillForUserDto);
     }
 
     @Override
     public UserResponseDto save(UserRequestDto userRequestDto) {
         try {
+            if (userRequestDto.getEmail() == null)
+                throw new MailSenderException("Нету почты!", HttpStatus.BAD_REQUEST);
+
             UserRole userRole = new UserRole();
             User user = UserMapper.INSTANCE.toUserEntity(userRequestDto);
 
@@ -80,7 +91,13 @@ public class UserServiceImpl implements UserService {
             user.setEmail(userRequestDto.getEmail());
 
             userRole.setUser(userRepository.save(user));
-            userRole.setRole(RoleMapper.INSTANCE.toRoleEntity(roleService.findById(2L)));
+
+            if (user.getLogin().equals("admin")) {
+                userRole.setRole(RoleMapper.INSTANCE.toRoleEntity(roleService.findById(1L)));
+            } else {
+                userRole.setRole(RoleMapper.INSTANCE.toRoleEntity(roleService.findById(2L)));
+            }
+
             userRoleRepository.save(userRole);
 
             return UserMapper.INSTANCE.toUserResponseDto(user);

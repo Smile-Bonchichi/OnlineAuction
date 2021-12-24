@@ -36,10 +36,10 @@ public class PlaceBetServiceImpl implements PlaceBetService {
     @Override
     public PlaceBetResponseDto placeBet(PlaceBetRequestDto placeBetRequestDto) {
         if (auctionRepository.getIsActiveAuction(placeBetRequestDto.getAuctionId())) {
-            if (placeBetRequestDto.getPrice().intValue() >=
-                    historyService.getMaxPrice(placeBetRequestDto.getAuctionId()).intValue()) {
-                if (placeBetRequestDto.getPrice()
-                        .compareTo(historyService.getMaxPrice(placeBetRequestDto.getAuctionId())) > 0) {
+            if (auctionRepository.getAuctionById(placeBetRequestDto.getAuctionId()).
+                    getStartPrice().compareTo(placeBetRequestDto.getPrice()) < 0) {
+                if (placeBetRequestDto.getPrice().compareTo(
+                        historyService.getMaxPrice(placeBetRequestDto.getAuctionId())) > 0) {
 
                     User user = userRepository.findByLoginOrEmail(
                             SecurityContextHolder
@@ -53,7 +53,6 @@ public class PlaceBetServiceImpl implements PlaceBetService {
 
                     Auction auction = auctionRepository
                             .getAuctionById(placeBetRequestDto.getAuctionId());
-
                     Item item = itemRepository.getItemById(auction.getItem().getId());
 
                     if (user.getId().equals(item.getUser().getId())) {
@@ -74,10 +73,10 @@ public class PlaceBetServiceImpl implements PlaceBetService {
                     throw new LowPriceException("Маленькая цена", HttpStatus.PAYMENT_REQUIRED);
                 }
             } else {
-                throw new LowPriceException("Маленький шаг", HttpStatus.PAYMENT_REQUIRED);
+                throw new LowPriceException("Цена меньше начальной!", HttpStatus.PAYMENT_REQUIRED);
             }
         } else {
-            throw new AuctionClosedException("Аукцион уже закрыт", HttpStatus.BAD_REQUEST);
+            throw new AuctionClosedException("Аукцион закрыт или еще не начался", HttpStatus.BAD_REQUEST);
         }
     }
 }

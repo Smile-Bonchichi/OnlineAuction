@@ -33,9 +33,4 @@ public class CategoryController {
     public CategoryResponseDto findById(@PathVariable Long id) {
         return categoryService.findById(id);
     }
-
-    @DeleteMapping("/{id}")
-    public CategoryResponseDto deleteById(@PathVariable Long id) {
-        return categoryService.deleteById(id);
-    }
 }

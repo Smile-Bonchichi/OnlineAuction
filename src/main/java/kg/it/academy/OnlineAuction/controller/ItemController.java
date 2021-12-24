@@ -38,9 +38,4 @@ public class ItemController {
     public ItemResponseDto findById(@PathVariable Long id) {
         return itemService.findById(id);
     }
-
-    @DeleteMapping("/{id}")
-    public ItemResponseDto deleteById(@PathVariable Long id) {
-        return itemService.deleteById(id);
-    }
 }

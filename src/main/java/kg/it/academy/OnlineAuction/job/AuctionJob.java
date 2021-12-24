@@ -6,6 +6,7 @@ import kg.it.academy.OnlineAuction.enums.Status;
 import kg.it.academy.OnlineAuction.exceptions.MailSenderException;
 import kg.it.academy.OnlineAuction.repository.AuctionRepository;
 import kg.it.academy.OnlineAuction.repository.HistoryRepository;
+import kg.it.academy.OnlineAuction.repository.ItemRepository;
 import kg.it.academy.OnlineAuction.repository.UserRepository;
 import kg.it.academy.OnlineAuction.service.MailSenderService;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class AuctionJob {
     final MailSenderService mailSenderService;
     final HistoryRepository historyRepository;
     final UserRepository userRepository;
+    final ItemRepository itemRepository;
 
     @Scheduled(fixedDelay = 1000)
     @Transactional
@@ -41,8 +44,17 @@ public class AuctionJob {
                 auctionRepository.updateStatus(Status.ACTIVE.toString(), x.getId());
             } else if ((x.getEndTime().compareTo(LocalDateTime.now()) <= 0) && (x.getStatus().equals(Status.ACTIVE))) {
                 auctionRepository.updateStatus(Status.NOT_ACTIVE.toString(), x.getId());
+
+                User userWinner = userRepository.getById(historyRepository.getWinnerOnAuction(x.getId()));
+                User userSeller = userRepository.getById(x.getItem().getUser().getId());
+                BigDecimal maxAmount = historyRepository.getMaxAuctionPrice(x.getId());
+
+                userRepository.updateWallet(maxAmount.add(userSeller.getWallet()), userSeller.getId());
+                itemRepository.updateUserIdOnItem(userWinner.getId(), x.getItem().getId());
+                userRepository.updateWallet(
+                        userWinner.getWallet().subtract(historyRepository.getMaxAuctionPrice(x.getId())), userWinner.getId()
+                );
                 sendMail(x);
-                auctionRepository.updateUserId(historyRepository.getWinnerOnAuction(x.getId()), x.getId());
             }
         });
     }
