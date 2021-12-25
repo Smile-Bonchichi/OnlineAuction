@@ -4,6 +4,7 @@ import kg.it.academy.OnlineAuction.dto.refill.RefillRequestDto;
 import kg.it.academy.OnlineAuction.dto.user.request.UserAuthDto;
 import kg.it.academy.OnlineAuction.dto.user.request.UserRequestDto;
 import kg.it.academy.OnlineAuction.dto.user.response.UserResponseDto;
+import kg.it.academy.OnlineAuction.entity.User;
 import kg.it.academy.OnlineAuction.service.UserService;
 
 import lombok.AccessLevel;
@@ -38,8 +39,8 @@ public class UserController {
     }
 
     @GetMapping("/get-all-user")
-    public List<UserResponseDto> getAll() {
-        return userService.getAll();
+    public List<User> getAll() {
+        return userService.getAllForAdmin();
     }
 
     @GetMapping("/{id}")

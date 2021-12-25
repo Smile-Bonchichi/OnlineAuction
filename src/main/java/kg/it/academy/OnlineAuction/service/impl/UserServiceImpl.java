@@ -112,6 +112,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllForAdmin() {
+        return userRepository.findAll();
+    }
+
+    @Override
     public UserResponseDto findById(Long id) {
         return UserMapper.INSTANCE.toUserResponseDto(userRepository.getById(id));
     }
