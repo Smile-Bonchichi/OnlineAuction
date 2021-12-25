@@ -36,4 +36,15 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM auctions t WHERE t.item_id = :id")
     Integer checkUniqueItemOnAuction(Long id);
+
+    @Query(nativeQuery = true, value = "SELECT t.* FROM auctions t " +
+            "                                   WHERE UPPER(t.name) like UPPER('%' || :nameAuction || '%') " +
+            "                                   AND t.status IN ('ACTIVE', 'IN_ADVERTISING')")
+    List<Auction> getAllByName(String nameAuction);
+
+    @Query(nativeQuery = true, value = "SELECT t.* FROM auctions t WHERE t.status = 'IN_ADVERTISING'")
+    List<Auction> getAllByInAdvertising();
+
+    @Query(nativeQuery = true, value = "SELECT t.* FROM auctions t WHERE t.status = 'ACTIVE'")
+    List<Auction> getAllByActive();
 }
