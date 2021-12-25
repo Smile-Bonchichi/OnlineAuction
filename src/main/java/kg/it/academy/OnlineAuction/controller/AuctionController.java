@@ -29,6 +29,21 @@ public class AuctionController {
         return auctionService.getAll();
     }
 
+    @GetMapping("/search-auction/{name}")
+    public List<AuctionResponseDto> getAllAuctionByName(@PathVariable String name) {
+        return auctionService.getAllByName(name);
+    }
+
+    @GetMapping("/get-all-auction-active")
+    public List<AuctionResponseDto> getAllAuctionByActive() {
+        return auctionService.getAllByActive();
+    }
+
+    @GetMapping("/get-all-auction-advertising")
+    public List<AuctionResponseDto> getAllAuctionByAdvertising() {
+        return auctionService.getAllByAllByInAdvertising();
+    }
+
     @GetMapping("/{id}")
     public AuctionResponseDto findById(@PathVariable Long id) {
         return auctionService.findById(id);

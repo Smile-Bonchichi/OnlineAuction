@@ -56,6 +56,21 @@ public class AuctionServiceImpl implements AuctionService {
         return AuctionMapper.INSTANCE.toAuctionDto(auctionRepository.getById(id));
     }
 
+    @Override
+    public List<AuctionResponseDto> getAllByName(String name) {
+        return AuctionMapper.INSTANCE.toAuctionsDto(auctionRepository.getAllByName(name));
+    }
+
+    @Override
+    public List<AuctionResponseDto> getAllByAllByInAdvertising() {
+        return AuctionMapper.INSTANCE.toAuctionsDto(auctionRepository.getAllByInAdvertising());
+    }
+
+    @Override
+    public List<AuctionResponseDto> getAllByActive() {
+        return AuctionMapper.INSTANCE.toAuctionsDto(auctionRepository.getAllByActive());
+    }
+
     private boolean checkItem(Long id) {
         return auctionRepository.checkUniqueItemOnAuction(id) == 0;
     }
