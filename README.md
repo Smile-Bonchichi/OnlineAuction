@@ -7,7 +7,7 @@
 <div align="center"> 
     <h3> Author: </h3> 
     <h5> 
-            🖤 <a href="https://github.com/Smile-Bonchichi"> Chika </a> 🖤
+            🖤 <a href="https://github.com/Smile-Bonchichi"> Nurdin </a> 🖤
     </h5> 
 </div>
 
